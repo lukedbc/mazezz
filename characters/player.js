@@ -5,13 +5,18 @@ function PlayerEntity({
     this.y = startPos.y;
     this.width = CONFIG.asset.width;
     this.height = CONFIG.asset.height;
-    this.speed = 2;
+    this.speed = 2.5;
     this.faceTo = "right";
     this.direction = "right";
     this.currentState = {
         type: "idle",
         name: "idle" + this.faceTo.capitalize()
     }
+    this.movingSound = new Audio();
+    this.movingSound.src = "assets/running.wav";
+
+    this.attackSound = new Audio();
+    this.attackSound.src = "assets/attack.flac";
 }
 
 PlayerEntity.prototype.applySpeed = function(speed) {
@@ -57,6 +62,7 @@ PlayerEntity.prototype.changePosition = function({
 
             player.x = newX;
             player.y = newY;
+
             return;
         }
         console.log(result.message);
@@ -134,5 +140,5 @@ PlayerEntity.prototype.update = function(actions, deltaTime) {
             return;
         }
     })
-    setTimeout(() => this.idle(), 5);
+    setTimeout(() => this.idle(), 50);
 }

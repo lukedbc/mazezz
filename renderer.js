@@ -64,6 +64,16 @@ Renderer.prototype.renderCharacter = function(context, gameFrames, character, pl
     }
     let frames = animations[characterState].frames;
     let position = Math.floor(gameFrames / __internal__fixedStaggerFrames(frames)) % frames;
+    if (position === 0) {
+        if (state.type === "move") {
+            character.movingSound.play();
+        } else if (state.type === "attack") {
+            character.attackSound.play();
+        } else {
+            stopAudio(character.movingSound);
+            stopAudio(character.attackSound);
+        }
+    }
 
     let { spriteWidth, spriteHeight } = __internal__getSpriteSize(animations[characterState], position);
 

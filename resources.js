@@ -23,11 +23,19 @@ function Resources() {
         assets["tree"] = new ImageAsset("assets/tree.png");
         assets["road"] = new ImageAsset("assets/road.png");
         assets["player"] = new ImageAsset("assets/player-2.png");
-        assets["enemy"] = new ImageAsset("assets/bowser-2.png");
 
         return assets;
     }
 
+    function __internal__initMessages() {
+        return `{
+            "time.out": "Time out!!! You lose",
+            "clear.level": "You win!!!",
+            "killed": "You die!!!"
+        }`
+    }
+
     this.context = __internal__initContext();
     this.assets = __internal__initAssets();
+    this.messages = JSON.parse(__internal__initMessages());
 }

@@ -64,3 +64,8 @@ function InputHandler() {
         }
     })
 }
+
+InputHandler.prototype.reset = function() {
+    this.supportedKeys = PLAYER_CONTROLLER.supportedKeys();
+    this.actions = [];
+}

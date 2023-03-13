@@ -15,13 +15,10 @@ function normalizeTimePassed(value) {
 
 function update(deltaTime, secondPassed) {
     gameState.currentPlayer.update(inputHandler.actions, deltaTime);
-    if (gameState.gameOverChecker(secondPassed)) {
+    let overObject = gameState.gameOverChecker(secondPassed);
+    if (overObject && overObject.status === true) {
         return;
     }
-}
-
-function check() {
-    // run to the corner
 }
 
 function render() {
@@ -29,13 +26,14 @@ function render() {
     renderer.renderMap(context, assets, gameState.currentLevel);
     renderer.renderTimeLimit(context, gameState.timePassed);
     renderer.renderCharacter(context, gameState.gameFrames, gameState.currentPlayer, assets["player"].getElement(), PLAYER_ANIMATIONS);
-    renderer.renderCharacter(context, gameState.gameFrames, gameState.currentEnemy, assets["enemy"].getElement(), ENEMY_ANIMATIONS);
 }
 
 function gameLoop() {
     if (gameState.isGameOver()) {
+        alert(resources.messages[gameState.isOver.reasonCode]);
         gameState.gameOver();
         gameState.reset();
+        inputHandler.reset();
         return;
     }
     let now = Date.now();
