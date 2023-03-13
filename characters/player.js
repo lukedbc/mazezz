@@ -5,7 +5,7 @@ function PlayerEntity({
     this.y = startPos.y;
     this.width = CONFIG.asset.width;
     this.height = CONFIG.asset.height;
-    this.speed = 1;
+    this.speed = 2;
     this.faceTo = "right";
     this.direction = "right";
     this.currentState = {
@@ -50,111 +50,16 @@ PlayerEntity.prototype.changePosition = function({
     };
 
     function __internal__changePositionWithSpeed(player, speed) {
-        let { newX, newY } = player.applySpeed(speed);
-        let mazeSize = {
-            row: gameState.currentLevel.maze.length,
-            column: gameState.currentLevel.maze[0].length
-        }
+        let result = collisionDetection(player, speed);
 
-        if (newX < 0 || newX > mazeSize.row - 1) {
+        if (result.canMove) {
+            let { newX, newY } = player.applySpeed(speed);
+
+            player.x = newX;
+            player.y = newY;
             return;
         }
-
-        if (newY < 0 || newY > mazeSize.column - 1) {
-            return;
-        }
-
-        if (isWholeNumber(newX)) {
-            newX -= 0.01;
-        }
-        if (isWholeNumber(newY)) {
-            newY -= 0.01;
-        }
-
-        // function __internal__buildRefer
-
-        if (player.direction === "left") {
-            let lowerLeftCornerX = newX;
-            let lowerLeftCornerY = newY + 1;
-
-            let referenceBox = { boxX: Math.floor(lowerLeftCornerX), boxY: Math.floor(lowerLeftCornerY) };
-            if (gameState.currentLevel.maze[referenceBox.boxY][referenceBox.boxX] === 1) {
-                console.log("TREE LEFT");
-                return;
-            }
-        }
-
-        if (player.direction === "right") {
-            let lowerRightCornerX = newX + 1;
-            let lowerRightCornerY = newY + 1;
-
-            let referenceBox = { boxX: Math.floor(lowerRightCornerX), boxY: Math.floor(lowerRightCornerY) };
-            if (gameState.currentLevel.maze[referenceBox.boxY][referenceBox.boxX] === 1) {
-                console.log("TREE RIGHT");
-                return;
-            }
-        }
-        if (player.direction === "up") {
-            if (player.faceTo === "right") {
-
-                let upperRightCornerX = newX + 1 - 0.2;
-                let upperRightCornerY = newY;
-
-                let referenceBox = { boxX: Math.floor(upperRightCornerX), boxY: Math.floor(upperRightCornerY) };
-
-                if (gameState.currentLevel.maze[referenceBox.boxY][referenceBox.boxX] === 1) {
-                    if (newY - referenceBox.boxY < 0.2) {
-                        console.log("TREE UP RIGHT");
-                        return;
-                    }
-                }
-            }
-            if (player.faceTo === "left") {
-                let upperLeftCornerX = newX;
-                let upperLeftCornerY = newY;
-
-                let referenceBox = { boxX: Math.floor(upperLeftCornerX), boxY: Math.floor(upperLeftCornerY) };
-
-                if (gameState.currentLevel.maze[referenceBox.boxY][referenceBox.boxX] === 1) {
-                    if (newY - referenceBox.boxY < 0.2) {
-                        console.log("TREE UP LEFT");
-                        return;
-                    }
-                }
-            }
-        }
-
-        if (player.direction === "down") {
-            if (player.faceTo === "right") {
-                let lowerRightCornerX = newX + 1;
-                let lowerRightCornerY = newY + 1;
-
-                let referenceBox = { boxX: Math.floor(lowerRightCornerX), boxY: Math.floor(lowerRightCornerY) };
-                if (gameState.currentLevel.maze[referenceBox.boxY][referenceBox.boxX] === 1) {
-                    console.log("TREE DOWN RIGHT");
-                    return;
-                }
-            }
-            if (player.faceTo === "left") {
-
-                let lowerLeftCornerX = newX;
-                let lowerLeftCornerY = newY + 1;
-
-                let referenceBox = { boxX: Math.floor(lowerLeftCornerX), boxY: Math.floor(lowerLeftCornerY) };
-                if (gameState.currentLevel.maze[referenceBox.boxY][referenceBox.boxX] === 1) {
-                    console.log("TREE DOWN LEFT");
-                    return;
-                }
-            }
-        }
-
-
-        // if (gameState.currentLevel.maze[newY][newX] === 1) {
-        //     return;
-        // }
-        //
-        player.x = newX;
-        player.y = newY;
+        console.log(result.message);
     }
 
     if (type !== "move") {
@@ -170,8 +75,8 @@ PlayerEntity.prototype.changePosition = function({
 PlayerEntity.prototype.idle = function() {
     let oldCurrentState = this.currentState;
     this.currentState = {
-        type: "move",
-        name: "move" + this.faceTo.capitalize()
+        type: "idle",
+        name: "idle" + this.faceTo.capitalize()
     }
 }
 
