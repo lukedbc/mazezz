@@ -64,10 +64,95 @@ PlayerEntity.prototype.changePosition = function({
             return;
         }
 
-        if (gameState.currentLevel.maze[newY][newX] === 1) {
-            return;
+        if (isWholeNumber(newX)) {
+            newX -= 0.01;
+        }
+        if (isWholeNumber(newY)) {
+            newY -= 0.01;
         }
 
+        // function __internal__buildRefer
+
+        if (player.direction === "left") {
+            let lowerLeftCornerX = newX;
+            let lowerLeftCornerY = newY + 1;
+
+            let referenceBox = { boxX: Math.floor(lowerLeftCornerX), boxY: Math.floor(lowerLeftCornerY) };
+            if (gameState.currentLevel.maze[referenceBox.boxY][referenceBox.boxX] === 1) {
+                console.log("TREE LEFT");
+                return;
+            }
+        }
+
+        if (player.direction === "right") {
+            let lowerRightCornerX = newX + 1;
+            let lowerRightCornerY = newY + 1;
+
+            let referenceBox = { boxX: Math.floor(lowerRightCornerX), boxY: Math.floor(lowerRightCornerY) };
+            if (gameState.currentLevel.maze[referenceBox.boxY][referenceBox.boxX] === 1) {
+                console.log("TREE RIGHT");
+                return;
+            }
+        }
+        if (player.direction === "up") {
+            if (player.faceTo === "right") {
+
+                let upperRightCornerX = newX + 1 - 0.2;
+                let upperRightCornerY = newY;
+
+                let referenceBox = { boxX: Math.floor(upperRightCornerX), boxY: Math.floor(upperRightCornerY) };
+
+                if (gameState.currentLevel.maze[referenceBox.boxY][referenceBox.boxX] === 1) {
+                    if (newY - referenceBox.boxY < 0.2) {
+                        console.log("TREE UP RIGHT");
+                        return;
+                    }
+                }
+            }
+            if (player.faceTo === "left") {
+                let upperLeftCornerX = newX;
+                let upperLeftCornerY = newY;
+
+                let referenceBox = { boxX: Math.floor(upperLeftCornerX), boxY: Math.floor(upperLeftCornerY) };
+
+                if (gameState.currentLevel.maze[referenceBox.boxY][referenceBox.boxX] === 1) {
+                    if (newY - referenceBox.boxY < 0.2) {
+                        console.log("TREE UP LEFT");
+                        return;
+                    }
+                }
+            }
+        }
+
+        if (player.direction === "down") {
+            if (player.faceTo === "right") {
+                let lowerRightCornerX = newX + 1;
+                let lowerRightCornerY = newY + 1;
+
+                let referenceBox = { boxX: Math.floor(lowerRightCornerX), boxY: Math.floor(lowerRightCornerY) };
+                if (gameState.currentLevel.maze[referenceBox.boxY][referenceBox.boxX] === 1) {
+                    console.log("TREE DOWN RIGHT");
+                    return;
+                }
+            }
+            if (player.faceTo === "left") {
+
+                let lowerLeftCornerX = newX;
+                let lowerLeftCornerY = newY + 1;
+
+                let referenceBox = { boxX: Math.floor(lowerLeftCornerX), boxY: Math.floor(lowerLeftCornerY) };
+                if (gameState.currentLevel.maze[referenceBox.boxY][referenceBox.boxX] === 1) {
+                    console.log("TREE DOWN LEFT");
+                    return;
+                }
+            }
+        }
+
+
+        // if (gameState.currentLevel.maze[newY][newX] === 1) {
+        //     return;
+        // }
+        //
         player.x = newX;
         player.y = newY;
     }
@@ -85,8 +170,8 @@ PlayerEntity.prototype.changePosition = function({
 PlayerEntity.prototype.idle = function() {
     let oldCurrentState = this.currentState;
     this.currentState = {
-        type: "idle",
-        name: "idle" + this.faceTo.capitalize()
+        type: "move",
+        name: "move" + this.faceTo.capitalize()
     }
 }
 
@@ -135,8 +220,8 @@ PlayerEntity.prototype.update = function(actions, deltaTime) {
         let direction = splited[1];
 
         if (type === "move") {
-            // this.niceMove(direction, deltaTime);
-            this.move(direction);
+            this.niceMove(direction, deltaTime);
+            // this.move(direction);
             return;
         }
         if (type === "attack") {

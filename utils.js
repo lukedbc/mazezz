@@ -18,3 +18,7 @@ Object.defineProperty(String.prototype, 'capitalize', {
     },
     enumerable: false
 });
+
+function isWholeNumber(n) {
+    return (n - Math.floor(n)) === 0;
+}
