@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Canvas Game</title>
+</head>
+
+<body>
+    <audio autoplay loop id="audio">
+        <source src="assets/background-music.mp3">
+        Your browser does not support the audio element.
+    </audio>
+    <img id="start-screen" class="gif" src="assets/start-screen.gif" />
+    <img id="game-over-screen" class="gif" src="assets/game-over.gif" />
+
+    <script src="utils.js"></script>
+    <script src="config.js"></script>
+    <script src="image-asset.js"></script>
+    <script src="resources.js"></script>
+    <script src="input-handler.js"></script>
+    <script src="animate-states.js"></script>
+    <script src="renderer.js"></script>
+
+    <script src="characters/player.js"></script>
+    <script src="characters/enemy.js"></script>
+
+    <script src="levels/level.js"></script>
+    <script src="levels/level-api.js"></script>
+    <script src="levels/level1.js"></script>
+
+    <script src="game-states.js"></script>
+    <script src="game.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>
