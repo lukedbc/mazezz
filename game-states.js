@@ -9,12 +9,49 @@ function GameState(context) {
 
     this.currentLevel = null;
     this.currentPlayer = null;
+    this.currentEnemies = null;
 
     this.context = context;
 }
 
+GameState.prototype.generateEnemies = function(assets) {
+
+    function __internal__generatingEnemyPos(gameState) {
+        let startPos = {
+            x: randomNumber(0, gameState.currentLevel.maze.length - 1),
+            y: randomNumber(0, gameState.currentLevel.maze[0].length - 1)
+        };
+        let player = gameState.currentPlayer;
+        if (Math.abs(player.x - startPos.x) > 2
+            && Math.abs(player.y - startPos.y) > 2
+            && gameState.currentLevel.maze[startPos.y][startPos.x] === 0) {
+            return startPos;
+        }
+        return __internal__generatingEnemyPos(gameState);
+    }
+    this.currentEnemies = [];
+    for (let enemyTypeIndex = 0; enemyTypeIndex < this.currentLevel.enemy.length; enemyTypeIndex++) {
+        let enemyType = this.currentLevel.enemy[enemyTypeIndex];
+        for (let i = 0; i < enemyType.number; i++) {
+            let startPos = __internal__generatingEnemyPos(this);
+            let type = enemyType.type;
+            let enemy = new EnemyEntity({ startPos, enemyType: type });
+            enemy.changeState({
+                type: ENEMY_TYPE_INFO[type].defaultState,
+                name: ENEMY_TYPE_INFO[type].defaultState
+            });
+            this.currentEnemies.push(enemy);
+        }
+    }
+}
+
+GameState.prototype.removeKilledEnemies = function() {
+    this.currentEnemies = this.currentEnemies.filter(enemy => enemy.currentState.type !== "killed");
+}
+
 GameState.prototype.start = function() {
     this.reset();
+    setInterval(() => this.removeKilledEnemies(), 300);
 }
 
 GameState.prototype.isOnEndPos = function({ x, y }) {

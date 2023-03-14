@@ -26,6 +26,14 @@ function render() {
     renderer.renderMap(context, assets, gameState.currentLevel);
     renderer.renderTimeLimit(context, gameState.timePassed);
     renderer.renderCharacter(context, gameState.gameFrames, gameState.currentPlayer, assets["player"].getElement(), PLAYER_ANIMATIONS);
+    if (gameState.currentEnemies && gameState.currentEnemies.length > 0) {
+        gameState.currentEnemies.forEach(enemy => {
+            let enemyAnimation = enemy.type === "ghost-1" ? GHOST_1_ANIMATION : null;
+            if (enemyAnimation) {
+                renderer.renderCharacter(context, gameState.gameFrames, enemy, assets[enemy.type].getElement(), enemyAnimation);
+            }
+        })
+    }
 }
 
 function gameLoop() {
@@ -58,6 +66,7 @@ function calculateSecondPassed(startInLoop, startGameTime) {
 
 function startGame() {
     gameState.start();
+    gameState.generateEnemies(assets);
     gameLoop();
 }
 

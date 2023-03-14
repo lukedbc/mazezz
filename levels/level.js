@@ -2,7 +2,7 @@ function Level({
     maze,
     start,
     end,
-    enemySpawn,
+    enemy,
     timeLimit
 }) {
     if (maze.length != CONFIG.maze.row || (maze[0] && maze[0].length != CONFIG.maze.column)) {
@@ -11,6 +11,6 @@ function Level({
     this.maze = maze;
     this.start = start;
     this.end = end;
-    this.enemySpawn = enemySpawn;
+    this.enemy = enemy;
     this.timeLimit = timeLimit;
 }

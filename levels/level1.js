@@ -29,5 +29,11 @@ const MAZE_LEVEL_1 = new Level({
         x: 19,
         y: 18
     },
+    enemy: [
+        {
+            type: "ghost-1",
+            number: 50
+        }
+    ],
     timeLimit: 300000
 });

@@ -56,6 +56,9 @@ PlayerEntity.prototype.changePosition = function({
 
     function __internal__changePositionWithSpeed(player, speed) {
         let result = collisionDetection(player, speed);
+        if (!result) {
+            console.log("DASDSADSDASDAS");
+        }
 
         if (result.canMove) {
             let { newX, newY } = player.applySpeed(speed);
@@ -65,7 +68,13 @@ PlayerEntity.prototype.changePosition = function({
 
             return;
         }
-        console.log(result.message);
+        if (result.enemies) {
+            player.attack();
+            result.enemies.forEach(enemy => enemy.changeState({
+                type: "killed",
+                name: "killed"
+            }));
+        }
     }
 
     if (type !== "move") {
@@ -141,4 +150,8 @@ PlayerEntity.prototype.update = function(actions, deltaTime) {
         }
     })
     setTimeout(() => this.idle(), 50);
+}
+
+PlayerEntity.prototype.isAttacking = function() {
+    return this.currentState.type === "attack";
 }

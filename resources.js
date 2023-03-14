@@ -19,10 +19,12 @@ function Resources() {
 
     function __internal__initAssets() {
         const assets = {}
+
         assets["background"] = new ImageAsset("assets/background.jpg");
         assets["tree"] = new ImageAsset("assets/tree.png");
         assets["road"] = new ImageAsset("assets/road.png");
         assets["player"] = new ImageAsset("assets/player-2.png");
+        assets["ghost-1"] = new ImageAsset("assets/ghost-1.png");
 
         return assets;
     }
