@@ -57,7 +57,6 @@ GameState.prototype.removeKilledEnemies = function() {
 
 GameState.prototype.start = function() {
     this.reset();
-    setInterval(() => this.removeKilledEnemies(), 300);
 }
 
 GameState.prototype.isOnEndPos = function({ x, y }) {

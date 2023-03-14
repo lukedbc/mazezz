@@ -35,5 +35,5 @@ const MAZE_LEVEL_1 = new Level({
             number: 50
         }
     ],
-    timeLimit: 300000
+    timeLimit: 40
 });

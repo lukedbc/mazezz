@@ -30,7 +30,13 @@ function render() {
         gameState.currentEnemies.forEach(enemy => {
             let enemyAnimation = enemy.type === "ghost-1" ? GHOST_1_ANIMATION : null;
             if (enemyAnimation) {
-                renderer.renderCharacter(context, gameState.gameFrames, enemy, assets[enemy.type].getElement(), enemyAnimation);
+                renderer.renderCharacter(context, gameState.gameFrames, enemy, assets[enemy.type].getElement(), enemyAnimation,
+                    function(character) {
+                        let isEnemyKilled = character.currentState.type === "killed";
+                        if (isEnemyKilled) {
+                            gameState.removeKilledEnemies();
+                        }
+                    });
             }
         })
     }

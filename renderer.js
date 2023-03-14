@@ -42,7 +42,11 @@ Renderer.prototype.renderPlayerPoint = function(context, player) {
         CONFIG.asset.width, CONFIG.asset.marginTop - 15);
 }
 
-Renderer.prototype.renderCharacter = function(context, gameFrames, character, playerAsset, animations) {
+Renderer.prototype.renderCharacter = function(context, gameFrames, character,
+    playerAsset, animations,
+    callBack = function() {
+
+    }) {
     function __internal__fixedStaggerFrames(animationsFrames) {
         return animationsFrames > 3 ? CONFIG.game.staggerFrames : CONFIG.game.staggerFrames + 3;
     }
@@ -95,6 +99,10 @@ Renderer.prototype.renderCharacter = function(context, gameFrames, character, pl
         spriteWidth, spriteHeight,
         x, y,
         character.width, character.height);
+
+    if (position === frames - 1) {
+        callBack(character);
+    }
 }
 
 Renderer.prototype.renderTimeLimit = function(context, value) {
