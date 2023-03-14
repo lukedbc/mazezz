@@ -12,11 +12,34 @@ function PlayerEntity({
         type: "idle",
         name: "idle" + this.faceTo.capitalize()
     }
+
+    this.point = 0;
+    this.exp = 0;
+
     this.movingSound = new Audio();
     this.movingSound.src = "assets/running.wav";
 
     this.attackSound = new Audio();
     this.attackSound.src = "assets/attack.flac";
+}
+
+PlayerEntity.prototype.applyAwards = function(awards) {
+    if (!awards) {
+        return;
+    }
+    awards.forEach(award => {
+        if (award.type === "character-status") {
+            if (award.isUsed) {
+                return;
+            }
+            if (award.name === "point") {
+                this.point += award.object.point;
+            } else if (award.name === "exp") {
+                this.exp += award.object.point;
+            }
+            award.isUsed = true;
+        }
+    });
 }
 
 PlayerEntity.prototype.applySpeed = function(speed) {
@@ -57,7 +80,7 @@ PlayerEntity.prototype.changePosition = function({
     function __internal__changePositionWithSpeed(player, speed) {
         let result = collisionDetection(player, speed);
         if (!result) {
-            console.log("DASDSADSDASDAS");
+            return;
         }
 
         if (result.canMove) {
@@ -70,10 +93,13 @@ PlayerEntity.prototype.changePosition = function({
         }
         if (result.enemies) {
             player.attack();
-            result.enemies.forEach(enemy => enemy.changeState({
-                type: "killed",
-                name: "killed"
-            }));
+            result.enemies.forEach(enemy => {
+                enemy.changeState({
+                    type: "killed",
+                    name: "killed"
+                });
+                player.applyAwards(enemy.awards);
+            });
         }
     }
 

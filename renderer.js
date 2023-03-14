@@ -37,6 +37,11 @@ Renderer.prototype.renderMaze = function(context, { treeImage, roadImage }, maze
     }
 }
 
+Renderer.prototype.renderPlayerPoint = function(context, player) {
+    context.fillText("Point: " + player.point,
+        CONFIG.asset.width, CONFIG.asset.marginTop - 15);
+}
+
 Renderer.prototype.renderCharacter = function(context, gameFrames, character, playerAsset, animations) {
     function __internal__fixedStaggerFrames(animationsFrames) {
         return animationsFrames > 3 ? CONFIG.game.staggerFrames : CONFIG.game.staggerFrames + 3;

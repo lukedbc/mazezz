@@ -34,6 +34,7 @@ function render() {
             }
         })
     }
+    renderer.renderPlayerPoint(context, gameState.currentPlayer);
 }
 
 function gameLoop() {

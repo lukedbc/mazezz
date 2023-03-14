@@ -9,6 +9,7 @@ function EnemyEntity({
     this.speed = Math.random() * 4 - 2;
     this.currentState = null;
     this.type = enemyType;
+    this.awards = [];
 }
 
 EnemyEntity.prototype.changeState = function({ type, name }) {
@@ -18,10 +19,20 @@ EnemyEntity.prototype.changeState = function({ type, name }) {
     };
 }
 
+EnemyEntity.prototype.setAwards = function(awards) {
+    if (!awards) {
+        return;
+    }
+    this.awards = awards;
+}
 
 const ENEMY_TYPE_INFO = {
     "ghost-1": {
         states: ["flying", "killed"],
-        defaultState: "flying"
+        defaultState: "flying",
+        awards: [
+            new AwardInfo({ name: "exp", type: "character-status", object: { min: 100, max: 200 } }),
+            new AwardInfo({ name: "point", type: "character-status", object: { min: 200, max: 400 } }),
+        ]
     }
 }

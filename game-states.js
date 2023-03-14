@@ -40,6 +40,12 @@ GameState.prototype.generateEnemies = function(assets) {
                 type: ENEMY_TYPE_INFO[type].defaultState,
                 name: ENEMY_TYPE_INFO[type].defaultState
             });
+
+            let awardsInfo = ENEMY_TYPE_INFO[type].awards;
+            let awards = buildAward(awardsInfo);
+
+            enemy.setAwards(awards);
+
             this.currentEnemies.push(enemy);
         }
     }

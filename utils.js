@@ -28,3 +28,7 @@ function randomNumber(minimum, maximum) {
     maximum = Math.floor(maximum);
     return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
 }
+
+function generateId() {
+    return Math.random().toString(16).slice(5);
+}

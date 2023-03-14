@@ -152,11 +152,11 @@ function collisionDetection(player, speed) {
     }
 
     if (player.direction === "down" && player.faceTo === "right") {
-        return __internal__collisionDectection(player, "lowerRight", { pX: newX, pY: newY, fixedFactor: -0.35 })
+        return __internal__collisionDectection(player, "lowerRight", { pX: newX, pY: newY, pfixedFactor: -0.35 })
     }
 
     if (player.direction === "down" && player.faceTo === "left") {
-        return __internal__collisionDectection(player, "lowerLeft", { pX: newX, pY: newY, fixedFactor: 0.35 })
+        return __internal__collisionDectection(player, "lowerLeft", { pX: newX, pY: newY, pfixedFactor: 0.35 })
     }
 
     return { canMove: true, mesage: "ok" };
