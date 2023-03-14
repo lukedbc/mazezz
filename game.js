@@ -39,10 +39,10 @@ function render() {
 
 function gameLoop() {
     if (gameState.isGameOver()) {
-        alert(resources.messages[gameState.isOver.reasonCode]);
         gameState.gameOver();
         gameState.reset();
         inputHandler.reset();
+        // alert(resources.messages[gameState.isOver.reasonCode]);
         return;
     }
     let now = Date.now();

@@ -42,6 +42,13 @@ PlayerEntity.prototype.applyAwards = function(awards) {
     });
 }
 
+PlayerEntity.prototype.stopAudio = function() {
+    this.movingSound.pause();
+    this.movingSound.currentTime = 0;
+    this.attackSound.pause();
+    this.attackSound.currentTime = 0;
+}
+
 PlayerEntity.prototype.applySpeed = function(speed) {
     let newX = this.x;
     let newY = this.y;

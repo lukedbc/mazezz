@@ -116,6 +116,7 @@ GameState.prototype.reset = function() {
 GameState.prototype.gameOver = function() {
     context.clearRect(0, 0, CONFIG.canvas.width, CONFIG.canvas.height);
     document.getElementById("game-over-screen").style = "display: block"
+    gameState.currentPlayer.stopAudio();
     stopAudio(document.getElementById("audio"));
 }
 
