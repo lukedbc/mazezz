@@ -70,7 +70,7 @@ GameState.prototype.isPlayerReachEndPos = function() {
     let ceilRefBox = { x: Math.ceil(refBox.x), y: Math.ceil(refBox.y) };
 
     return this.isOnEndPos(refBox)
-        || (this.isOnEndPos(ceilRefBox) && (ceilRefBox.x - refBox.x <= 0.02));
+        || (this.isOnEndPos(ceilRefBox) && (ceilRefBox.x - refBox.x <= 0.2));
 }
 
 GameState.prototype.gameOverChecker = function(secondPassed) {
